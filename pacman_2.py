@@ -6,6 +6,43 @@ screen = pygame.display.set_mode((800,600),0)
 
 AMARELO = (255,255,0)
 PRETO = (0,0,0)
+AZUL = (0,0,255)
+
+class Cenario:
+    def __init__(self,tamanho):
+        self.tamanho = tamanho
+        self.matriz = [
+            
+            [2,2,2,2,2],
+            [2,0,2,0,2],
+            [2,0,2,0,2],
+            [2,0,2,0,2],
+            [2,2,2,2,2]
+
+        ]
+    
+    def pintar_linha(self,tela,numero_linha,linha):
+        for numero_coluna,coluna in enumerate(linha): #Devolve o valor e o indice da coluna
+            x = numero_coluna * self.tamanho
+            y = numero_linha * self.tamanho
+
+            cor = PRETO
+            if coluna == 2:
+                cor = AZUL
+
+            pygame.draw.rect(tela,cor,(x,y,self.tamanho,self.tamanho),0)
+
+
+
+
+    def pintar(self,tela):
+        for numero_linha,linha in enumerate(self.matriz):
+            self.pintar_linha(tela,numero_linha,linha)
+
+
+
+
+
 
 class Pacman:
     def __init__(self):
@@ -73,12 +110,14 @@ class Pacman:
 
 if __name__ == "__main__":
     pacman = Pacman()
+    cenario = Cenario(600 // 30)
 
     while True:
         #Calcular as regras
         pacman.calcular_regras()
         #Pintar tela
         screen.fill(PRETO)
+        cenario.pintar(screen)
         pacman.pintar(screen)
 
         pygame.display.update()
